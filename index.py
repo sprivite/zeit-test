@@ -1,14 +1,23 @@
 from flask import Flask, Response
-import folium
+from jinja2 import Template
+import pandas as pd
 
 app = Flask(__name__)
 
 
-m = folium.Map(location=[48.7, 13.8], zoom_start=5)
-m.save('test.html')
-t = open('test.html').read()
+country_centroids = pd.read_csv('country_centroids.csv.gz', index_col='name')
+template = Template(open('index.html').read())
+
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    return t
+
+    try:
+        center = country_centroids.loc[path]
+        lat, lon = center.latitude, center.longitude
+    except KeyError:
+        return Response('Country not found!', status=404)
+
+    return template.render(longitude=lon, latitude=lat)
+
