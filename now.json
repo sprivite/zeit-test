@@ -4,7 +4,8 @@
 	"src": "*.py",
 	"use": "@now/python",
 	"config": { "maxLambdaSize": "50mb" }
-    }]
+    }],
+    "routes": [{ "src": "(.*)", "dest": "index.py" }]
 }
 
 
