@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import request, Flask, Response
 from jinja2 import Template
 import pandas as pd
 
@@ -9,15 +9,19 @@ country_centroids = pd.read_csv('country_centroids.csv.gz', index_col='name')
 template = Template(open('index.html').read())
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
+@app.route('/', methods=['GET'])
+def home():
 
-    try:
-        center = country_centroids.loc[path]
-        lat, lon = center.latitude, center.longitude
-    except KeyError:
-        return Response('Country not found!', status=404)
+    country = request.args.get('country')
+    if country:
+        try:
+            center = country_centroids.loc[country]
+            lat, lon = center.latitude, center.longitude
+        except KeyError:
+            return Response('Country not found!', status=400)
+    else:
+        return Response('Please enter a country!', status=200)
 
-    return template.render(longitude=lon, latitude=lat)
+    response = template.render(longitude=lon, latitude=lat)
+    return Response(response, status=200)
 
