@@ -1,13 +1,6 @@
-from http.server import BaseHTTPRequestHandler
-from cowpy import cow
-import os
+from flask import Flask, Response
+app = Flask(__name__)
 
-class handler(BaseHTTPRequestHandler):
-
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type','text/plain')
-        self.end_headers()
-        message = cow.Cowacter().milk('Hello from Python on Now Lambda!1111111')
-        self.wfile.write(str(os.environ)))
-        return
+@app.route('/europe')
+def europe():
+    return Response("<h1>Flask on Now</h1>", mimetype="text/html")
