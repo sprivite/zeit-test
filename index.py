@@ -13,7 +13,8 @@ template = Template(open('index.html').read())
 @app.route('/')
 def home():
 
-    return Response('Please enter a country in URL!<br>' + '<br>'.join(countries), status=200)
+    response = 'Please enter a country in URL!<br>' + '<br>'.join(countries)
+    return Response(response, status=200, mimetype="text/html")
 
 
 @app.route('/<country>', methods=['GET'])
@@ -26,5 +27,5 @@ def viewer(country):
     lat, lon = center.latitude, center.longitude
     response = template.render(longitude=lon, latitude=lat)
 
-    return Response(response, status=200)
+    return Response(response, status=200, mimetype="text/html")
 
