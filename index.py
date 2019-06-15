@@ -6,22 +6,25 @@ app = Flask(__name__)
 
 
 country_centroids = pd.read_csv('country_centroids.csv.gz', index_col='name')
+countries = list(country_centroids.index)
 template = Template(open('index.html').read())
 
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def home():
 
-    country = request.args.get('country')
-    if country:
-        try:
-            center = country_centroids.loc[country]
-            lat, lon = center.latitude, center.longitude
-        except KeyError:
-            return Response('Country not found!', status=400)
-    else:
-        return Response('Please enter a country!', status=200)
+    return Response('Please enter a country in URL!<br>' + '<br>'.join(countries), status=200)
 
+
+@app.route('/<country>', methods=['GET'])
+def viewer(country):
+
+    if country not in countries:
+        return Response('Invalid country: {}!'.format(country), status=400)
+        
+    center = country_centroids.loc[country]
+    lat, lon = center.latitude, center.longitude
     response = template.render(longitude=lon, latitude=lat)
+
     return Response(response, status=200)
 
