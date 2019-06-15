@@ -27,5 +27,5 @@ def viewer(country):
     lat, lon = center.latitude, center.longitude
     response = template.render(longitude=lon, latitude=lat)
 
-    return Response(response, status=200, mimetype="text/html")
+    return Response(response, status=200)
 
