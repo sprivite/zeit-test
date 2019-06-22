@@ -1,7 +1,7 @@
 from flask import request, Flask, Response
 from jinja2 import Template
 import pandas as pd
-
+import urllib
 
 app = Flask(__name__)
 
@@ -29,7 +29,10 @@ def viewer():
             longitude=13,
             countries='<br>'.join(sorted(chosen_countries)))
         return Response(response, status=200)
-        
+
+    if country == 'Arnesa':
+        message = '<img width=400 src=https://rscdsvancouver.org/cms/wp-content/uploads/Hearts-In-Heart.png>'
+        return Response(message)
 
     if country not in countries:
         return Response('Invalid country: {}!'.format(country), status=400)
