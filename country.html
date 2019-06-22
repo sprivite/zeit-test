@@ -23,10 +23,17 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 35em;
+    left: 40em;
     right: 0;
     }
     #query {
+    width: 15em;
+    padding: 0.5em;
+    margin: 2em 0em 0em 2em;
+    font-family: monospace;
+    font-size: x-large;
+    }
+    #panel {
     width: 15em;
     padding: 0.5em;
     margin: 2em 0em 0em 2em;
@@ -49,15 +56,19 @@
 
 
   <body>
-
+    
+    <div id='panel'>
     <form id="form" name="form" action="">
+      List all the countries!
       <input id="query" name="country" type="text" value="" placeholder="Enter a country…" autofocus="on" autocomplete="off">
       <ol id="results"></ol>
+      <br>
 
-      Known countries: <br><br>
+      {{n_found}}/{{n_countries}} countries found: <br><br>
       {{countries}}
       
     </form>
+    </div>
 
     <div id='map'></div>
     <script>
