@@ -11,7 +11,53 @@
       #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
   </head>
+
+
+
+  <style type="text/css">
+    body {
+    margin: 0;
+    padding: 0;
+    }
+    #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 35em;
+    right: 0;
+    }
+    #query {
+    width: 15em;
+    padding: 0.5em;
+    margin: 2em 0em 0em 2em;
+    font-family: monospace;
+    font-size: x-large;
+    }
+    #results {
+    width: 20em;
+    list-style-type: none;
+    font-family: monospace;
+    font-size: x-large;
+    }
+    #result {
+    margin: 0em 0em 0.5em 0em;
+    }
+    #match {
+    font-weight: bold;
+    }
+  </style>
+
+
   <body>
+
+    <form id="form" name="form" action="">
+      <input id="query" name="country" type="text" value="" placeholder="Choose a country…" autofocus="on" autocomplete="off">
+      <ol id="results"></ol>
+
+      Known countries: <br><br>
+      {{countries}}
+      
+    </form>
 
     <div id='map'></div>
     <script>
@@ -19,9 +65,9 @@
       mapboxgl.accessToken = 'pk.eyJ1Ijoic3ByaXZpdGUiLCJhIjoiY2p3eGdhcnRuMTRpYTQxbW9oMmk0OThocCJ9.Yhn0bGjQMll6Xs62ArvDug';
       var map = new mapboxgl.Map({
       container: 'map', // container id
-      style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+      style: 'mapbox://styles/sprivite/cjx0q78ww08hd1cpvuzqfhgtf', // stylesheet location
       center: [{{longitude}}, {{latitude}}], // starting position [lng, lat]
-      zoom: 6 // starting zoom
+      zoom: {{zoom}} // starting zoom
       });
     </script>
 

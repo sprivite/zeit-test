@@ -9,7 +9,6 @@ app = Flask(__name__)
 country_centroids = pd.read_csv('country_centroids.csv.gz', index_col='name')
 countries = list(country_centroids.index)
 map_template = Template(open('country.html').read())
-home_template = Template(open('index.html').read())
 
 
 @app.route('/', methods=['GET'])
@@ -17,7 +16,12 @@ def viewer():
 
     country = request.args.get('country')
     if not country:
-        response = home_template.render(countries='<br>'.join(countries))
+        response = map_template.render(
+            country='Pick a country!',
+            zoom=3,
+            latitude=52,
+            longitude=13,
+            countries='<br>'.join(countries))
         return Response(response, status=200)
         
 
@@ -26,6 +30,11 @@ def viewer():
         
     center = country_centroids.loc[country]
     lat, lon = center.latitude, center.longitude
-    response = map_template.render(country=country, longitude=lon, latitude=lat)
+    response = map_template.render(
+        country=country,
+        zoom=5,
+        longitude=lon,
+        latitude=lat,
+        countries='<br>'.join(countries))
 
     return Response(response, status=200, mimetype='text/html')
